@@ -1,13 +1,47 @@
+// Player info
 var playerName = window.prompt("What is your robot's name?");
+var playerHealth = 100;
+var playerAttack = 10;
 
-console.log(playerName);
+// Log player info
+console.log(playerName, playerAttack, playerHealth);
 
-console.log("This logs a string, good for leaving yourself a message");
-console.log(10 + 10);
-console.log("Our robot's name is " + playerName);
+// Enemy info
+var enemyName = "Roborto";
+var enemyHealth = 50;
+var enemyAttack = 12;
 
+// Fight function
 function fight() {
-  window.alert("The fight has begun!");
+  // Round start alert
+  window.alert("Welcome to Robot Gladiators!");
+
+  // Subtract value of 'playerAttack' from value of 'enemyHealth' and update 'enemyHealth' variable
+  enemyHealth = enemyHealth - playerAttack;
+
+  // Log results to console
+  console.log(playerName + " attacked " + enemyName + ". " + enemyName + " now has " + enemyHealth + " health remaining.");
+
+  // Check enemy's health
+  if (enemyHealth <= 0) {
+    window.alert(enemyName + " has died!");
+  } else {
+    window.alert(enemyName + " still has " + enemyHealth + " health left.");
+  }
+
+  // Subtract value of 'enemyAttack' from value of 'playerHealth' and update 'playerHealth' variable
+  playerHealth = playerHealth - enemyAttack;
+
+  // Log results to console
+  console.log(enemyName + " attacked " + playerName + ". " + playerName + " now has " + playerHealth + " health remaining.");
+  
+  // Check players's health
+  if (playerHealth <= 0) {
+    window.alert(playerName + " has died!");
+  } else {
+    window.alert(playerName + " still has " + playerHealth + " health left.");
+  }
 }
 
-// fight();
+// Call fight function
+fight();
