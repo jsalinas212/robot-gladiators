@@ -55,7 +55,7 @@ function fight() {
   
       // Subtract money for skipping
       playerMoney = playerMoney - 2;
-      console.log(playerName + " only has " + playerMoney + " remaining!");
+      console.log(playerName + " only has " + playerMoney + " remaining!"); 
     } else {
       fight();
     }
