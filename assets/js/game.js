@@ -23,17 +23,20 @@ var fight = function(enemyName) {
       if (confirmSkip) {
         window.alert(playerName + " has chosen to skip the fight!");
         // Subtract money for skipping
-        playerMoney = playerMoney - 10;
+        playerMoney = Math.max(0, playerMoney - 10);
         console.log("playerMoney", playerMoney);
         break;
       }
     }
 
+    // Generate player robot attack damage
+    var damage = randomNumber(playerAttack - 5, playerAttack);
+
     // Subtract value of 'playerAttack' from value of 'enemyHealth' and update 'enemyHealth' variable
-    enemyHealth = enemyHealth - playerAttack;
+    enemyHealth = Math.max(0, enemyHealth - damage);
   
     // Log results to console
-    console.log(playerName + " attacked " + enemyName + ". " + enemyName + " now has " + enemyHealth + " health remaining.");
+    console.log(playerName + " attacked " + enemyName + " for " + damage + " damage.");
   
     // Check enemy's health
     if (enemyHealth <= 0) {
@@ -42,12 +45,15 @@ var fight = function(enemyName) {
     } else {
       window.alert(enemyName + " still has " + enemyHealth + " health left.");
     }
-  
+    
+    // Generate enemy damage
+    var damage = randomNumber(enemyAttack - 5, enemyAttack);
+
     // Subtract value of 'enemyAttack' from value of 'playerHealth' and update 'playerHealth' variable
-    playerHealth = playerHealth - enemyAttack;
+    playerHealth = Math.max(0, playerHealth - damage);
   
     // Log results to console
-    console.log(enemyName + " attacked " + playerName + ". " + playerName + " now has " + playerHealth + " health remaining.");
+    console.log(enemyName + " attacked " + playerName + " for " + damage + " damage.");
     
     // Check players's health
     if (playerHealth <= 0) {
@@ -76,7 +82,7 @@ function startGame() {
       var pickedEnemyName = enemyNames[i];
   
       // Reset enemy health
-      enemyHealth = 50;
+      enemyHealth = randomNumber(20, 80);
   
       // Pass enemey combatant to fight function
       fight(pickedEnemyName);
@@ -168,6 +174,13 @@ var shop = function() {
       shop()
       break;
   }
+};
+
+// Function to generate random number up to 80
+var randomNumber = function(min, max) {
+  var value = Math.floor(Math.random() * + (max - min) + min);
+
+  return value;
 };
 
 startGame();
