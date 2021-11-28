@@ -155,11 +155,21 @@ function startGame() {
 }
 
 var endGame = function() {
-  // If player is alive, player wins
-  if (playerInfo.health > 0) {
-    window.alert("Great job, you survived the game! Here is your score: " + playerInfo.money);
+  window.alert("The game has now ended. Let's see how you did!");
+
+  // Check localstorage for high score, if it's not there, use 0
+  var highScore = localStorage.getItem("highScore");
+  if (highScore === null) {
+    highScore = 0;
+  }
+  // If player has more money than high score, player set new high score
+  if (playerInfo.money > highScore) {
+    localStorage.setItem("highScore", playerInfo.money);
+    localStorage.setItem("name", playerInfo.name);
+
+    alert(playerInfo.name + " set the high score of " + playerInfo.money + "!");
   } else {
-    window.alert("You lost your robot in battle.");
+    alert(playerInfo.name + " did not beat the high score of " + playerInfo.money + ". Maybe next time!");
   }
 
   // Play again?
