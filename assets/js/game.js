@@ -29,47 +29,87 @@ var fightOrSkip = function() {
 
 // Fight function
 var fight = function(enemy) {
-  // repeat while enemy is alive
+  // Determine whose turn it is
+  var isPlayerTurn = true;
+  if (Math.random() > 0.5) {
+    isPlayerTurn = false;
+  }
+
+  // Repeat while enemy is alive
   while (playerInfo.health > 0 && enemy.health > 0) {
-    // ask player to fight or skip
-    if (fightOrSkip()) {
-      // break loop if true
-      break;
-    }
+    if (isPlayerTurn) {
+      // Ask player to fight or skip
+      if (fightOrSkip()) {
+        // Break loop if true
+        break;
+      }
 
-    // Generate player robot attack damage
-    var damage = randomNumber(playerInfo.attack - 5, playerInfo.attack);
+      // Generate player robot attack damage
+      var damage = randomNumber(playerInfo.attack - 5, playerInfo.attack);
 
-    // Subtract value of 'playerInfo.attack' from value of 'enemy.health' and update 'enemy.health' variable
-    enemy.health = Math.max(0, enemy.health - damage);
-  
-    // Log results to console
-    console.log(playerInfo.name + " attacked " + enemy.name + " for " + damage + " damage.");
-  
-    // Check enemy's health
-    if (enemy.health <= 0) {
-      window.alert(enemy.name + " has died!");
-      break;
-    } else {
-      window.alert(enemy.name + " still has " + enemy.health + " health left.");
-    }
+      // Subtract value of 'playerInfo.attack' from value of 'enemy.health' and update 'enemy.health' variable
+      enemy.health = Math.max(0, enemy.health - damage);
     
-    // Generate enemy damage
-    var damage = randomNumber(enemy.attack - 5, enemy.attack);
-
-    // Subtract value of 'enemy.attack' from value of 'playerInfo.health' and update 'playerInfo.health' variable
-    playerInfo.health = Math.max(0, playerInfo.health - damage);
-  
-    // Log results to console
-    console.log(enemy.name + " attacked " + playerInfo.name + " for " + damage + " damage.");
+      // Log results to console
+      console.log(
+        playerInfo.name + 
+        " attacked " + 
+        enemy.name + 
+        " for " + 
+        damage + 
+        " damage."
+      );
     
-    // Check players's health
-    if (playerInfo.health <= 0) {
-      window.alert(playerInfo.name + " has died!");
-      break;
-    } else {
-      window.alert(playerInfo.name + " still has " + playerInfo.health + " health left.");
+      // Check enemy's health
+      if (enemy.health <= 0) {
+        window.alert(enemy.name + " has died!");
+        playerInfo.money += randomNumber(2, playerInfo.money + 10);
+        window.alert(playerInfo.name + " received money for winning!");
+        window.alert(playerInfo.name + " now has " + playerInfo.money + " dollars!");
+        break;
+      } else {
+        window.alert(
+          enemy.name + 
+          " still has " + 
+          enemy.health + 
+          " health left."
+        );
+      }
+
+    
+    } else { // Player gets attacked first
+
+      // Generate enemy damage
+      var damage = randomNumber(enemy.attack - 5, enemy.attack);
+
+      // Subtract value of 'enemy.attack' from value of 'playerInfo.health' and update 'playerInfo.health' variable
+      playerInfo.health = Math.max(0, playerInfo.health - damage);
+    
+      // Log results to console
+      console.log(
+        enemy.name + 
+        " attacked " + 
+        playerInfo.name + 
+        " for " + 
+        damage + 
+        " damage."
+      );
+
+      // Check players's health
+      if (playerInfo.health <= 0) {
+        window.alert(playerInfo.name + " has died!");
+        break;
+      } else {
+        window.alert(
+          playerInfo.name + 
+          " still has " + 
+          playerInfo.health + 
+          " health left."
+        );
+      }
     }
+    // Switch turn order
+    isPlayerTurn = !isPlayerTurn;
   }
 };
 
@@ -96,7 +136,9 @@ function startGame() {
       // If not at last enemy
       if (playerInfo.health > 0 && i < enemyInfo.length - 1) {
         // Enter shop?
-        var storeConfirm = window.confirm("The round is over. Visit the shop before next round?");
+        var storeConfirm = window.confirm(
+          "The round is over. Visit the shop before next round?"
+        );
 
         // shop confirmed
         if (storeConfirm) {
